@@ -1,0 +1,76 @@
+package Recursion;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+//Given a collection of candidate numbers (candidates) and a target number (target),
+// find all unique combinations in candidates where the candidate numbers sum to target.
+//        Each number in candidates may only be used once in the combination.
+//        Note: The solution set must not contain duplicate combinations.
+//        Example 1:
+//        Input: candidates = [10,1,2,7,6,1,5], target = 8
+//        Output:
+//        [
+// [1,1,6],
+//  [1,2,5],
+// [1,7],
+// [2,6]
+// ]
+//      while loop                    []
+//                      /         \
+//                    1            (skip duplicate)
+//                 /     \
+//               1         2
+//             /   \      /   \
+//           6     7    6     7
+//          /       |   |      |
+//       [1,1,6]  [1,7] [2,6]  ...
+public class combinationSumII {
+    public static void solve(int[] nums,int target,int i,int sum,List<List<Integer>> res,List<Integer> curr){
+
+
+        // Base condition: if sum exceeds the target or index goes out of bounds, return
+        if (sum > target || i >= nums.length) {
+            return;
+        }
+        // Base condition: if sum equals the target, add the current combination to the result
+
+        if (sum == target) {
+            res.add(new ArrayList<>(curr));
+            return;
+        }
+
+
+
+        // Include the current element
+        curr.add(nums[i]);
+        solve(nums, target, i + 1, sum + nums[i], res, curr); // Move to the next index
+
+        // Backtrack: remove the last number
+        curr.remove(curr.size() - 1);
+
+        // Skip duplicates and move to the next unique element dubara jb 1 se hi recusive function call hoga to use skip kr rhe, coz ye repeat hi
+        //hoga like 1 at index 0 ur saare elements se
+        while (i + 1 < nums.length && nums[i] == nums[i + 1]) {
+            i++;
+        }
+
+        // Exclude the current element and move to the next index
+        solve(nums, target, i + 1, sum, res, curr);
+    }
+
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+
+        int target=8;
+        int[] candidates= {10,1,2,7,6,1,5};
+        Arrays.sort(candidates);
+        List<Integer> curr=new ArrayList<>();
+        List<List<Integer>> res=new ArrayList<>();
+        solve(candidates,target,0,0,res,curr);
+
+        System.out.println(res);
+
+    }
+}
