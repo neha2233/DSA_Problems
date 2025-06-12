@@ -1,0 +1,35 @@
+package DP;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+//When given an integer n, where n is based on a 0-based index, find the nth Fibonacci number.
+//        Every ith number in the series equals the sum of the (i-1)th and (i-2)th numbers, where the first and second numbers are specified as 0 and 1, respectively.
+//        For the given issue, code both top-down and bottom-up approaches.
+//        Note : As the answer might be large, return the final answer modulo 109 + 7
+//        Example 1:
+//        Input:
+//        n = 5
+//        Output: 5
+//   0 1 1 2 3 5 8 13 ....
+public class nthfibonacino {
+    public static int solve(int n,int[] dp){
+
+        if(n==0 ) return 0;
+        if(n==1 || n==2)return 1;
+
+        if(dp[n]!=0)return dp[n];
+        int first=solve(n-1,dp);
+        int second=solve(n-2,dp);
+
+        return dp[n]=first+second;
+
+    }
+    public static void main(String[] args){
+    int n=6;
+    int[] dp=new int[n+1];
+        Arrays.fill(dp,0);
+    int ans=solve(n,dp);
+        System.out.println(ans);
+    }
+}
