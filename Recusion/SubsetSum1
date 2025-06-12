@@ -1,0 +1,37 @@
+package Recursion;
+//Given a array arr of integers, return the sums of all subsets in the list.  Return the sums in any order.
+//        Examples:
+//        Input: arr[] = [2, 3]
+//        Output: [0, 2, 3, 5]
+//
+//        Explanation: When no elements are taken then Sum = 0. When only 2 is taken then Sum = 2. When only
+//        3 is taken then Sum = 3. When elements 2 and 3 are taken then Sum = 2+3 = 5.
+import java.util.ArrayList;
+import java.util.List;
+
+public class SubsetSum1 {
+    public static List<Integer> solve(int[] nums, List<Integer> res,int sum,int i){
+
+
+        if(i==nums.length ){
+            res.add(sum);
+            return res;
+        }
+
+        sum=sum+nums[i];
+        solve(nums,res,sum,i+1);
+        sum=sum-nums[i];
+        solve(nums,res,sum,i+1);
+      return res;
+    }
+
+    public static void main(String[] args){
+        int n=2;
+        int[] nums={2,3};
+
+        List<Integer> res=new ArrayList<>();
+        List<Integer> ans=solve(nums,res,0,0);
+        System.out.println(ans);
+
+    }
+}
