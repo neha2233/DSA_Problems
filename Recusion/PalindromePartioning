@@ -1,0 +1,44 @@
+package Recursion;
+//Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.
+//        Example 1:
+//        Input: s = "aab"
+//        Output: [["a","a","b"],["aa","b"]]
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PalindromePartioning {
+    public static void solve(int i,String n,List<String> op,List<List<String>> ans){
+        if(i==n.length()){
+            ans.add(new ArrayList<>(op));
+            return;
+        }
+        for(int j=i; j<n.length(); j++){
+
+            if(isPalindrome(n,i,j)){
+                op.add(n.substring(i,j+1));
+                solve(j+1,n,op,ans);
+                op.remove(op.size()-1);
+
+            }
+        }
+    }
+    public static boolean isPalindrome(String s, int low, int high){
+        while(low<high){
+            if(s.charAt(low) != s.charAt(high)){
+                return false;
+            }
+           low++;
+            high--;
+        }
+        return true;
+    }
+    public static void main(String[] args){
+        String n="aab";
+        List<List<String>> ans=new ArrayList<>();
+        solve(0,n,new ArrayList<>(),ans);
+        System.out.println(ans);
+
+
+    }
+}
