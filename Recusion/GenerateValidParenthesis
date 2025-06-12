@@ -1,0 +1,37 @@
+package Recursion;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+//Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+//        Example 1:
+//        Input: n = 3
+//        Output: ["((()))","(()())","(())()","()(())","()()()"]
+public class GenerateValidParenthesis {
+    public static List<String> solve(int n, String ch, int open, int close, List<String> res){
+        if(ch.length()==n*2) {
+            res.add(ch);
+            return res;
+        }
+        if(open<n) {
+
+            solve(n , ch + "(", open + 1, close, res);
+        }
+        if(close<open) {
+            solve(n , ch + ")", open, close + 1, res);
+        }
+
+        return res;
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+            int n = sc.nextInt();
+            String ch = "";
+            List<String> res = new ArrayList<>();
+            List<String> ans = solve(n, ch, 0, 0, res);
+            System.out.println(ans);
+
+        }
+    }
+
