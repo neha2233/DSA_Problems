@@ -1,0 +1,90 @@
+package Graph;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.*;
+
+//Given an undirected graph with V vertices labelled from 0 to V-1 and E edges, check whether the graph contains any cycle or not.
+// The Graph is represented as an adjacency list, where adj[i] contains all the vertices that are directly connected to vertex i.
+//        NOTE: The adjacency list represents undirected edges, meaning that if there is an edge between vertex i and vertex j, both
+//        j will be adj[i] and i will be in adj[j].
+//        Examples:
+//        Input: adj = [[1], [0,2,4], [1,3], [2,4], [1,3]]
+//        Output: 1
+//        Explanation:
+//        1->2->3->4->1 is a cycle.
+//        Input: adj = [[], [2], [1,3], [2]]
+//        Output: 0
+//        Explanation:
+//        No cycle in the graph.
+// this cas also be done with both dfs and bfs
+//also multiple component graph could be possible
+public class UndirectedGraphCycleBFS {
+   public static boolean detectcycle(int node, boolean[] visi, Queue<Pair> q,Map<Integer,List<Integer>> adjList) {
+       visi[node] = true;
+       q.add(new Pair(node,-1));
+       while (!q.isEmpty()) {
+           int currentnode=q.peek().node;
+           int parentnode = q.peek().parentnode;
+           q.remove();
+
+           for (Integer it : adjList.get(currentnode)) {
+               if (visi[it] == false) {
+                   visi[it] = true;
+                   q.add(new Pair(it, currentnode));
+               } else if (it != parentnode)
+                   return true;
+
+           }
+
+       }
+       return false;
+   }
+
+    public static void main(String[] args) {
+     int adj[][] = {{1}, {0,2,4}, {1,3}, {2,4}, {1,3}};
+//        int adj[][] =   {{}, {2}, {1,3}, {2}};
+        int n=adj.length;
+        Map<Integer,List<Integer>> adjList=new HashMap<>();
+
+
+        for(int i=0; i<n; i++){
+            adjList.put(i,new ArrayList<>());
+           for(int j=0; j<adj[i].length; j++){
+               adjList.get(i).add(adj[i][j]);
+           }
+        }
+
+
+        boolean[] visi=new boolean[n];
+        Queue<Pair> q=new LinkedList<>();
+
+        boolean iscycle=false;
+        for(int i=0; i<n; i++){
+            if(visi[i]==false){
+
+                if(detectcycle(i, visi, q, adjList)==true) {
+                    iscycle=true;
+                    break;
+                }
+
+            }
+
+        }
+     System.out.println(iscycle);
+
+    }
+   static class Pair{
+        Integer node;
+        Integer parentnode;
+
+        public Pair(Integer node, Integer parentnode){
+            this.node=node;
+            this.parentnode=parentnode;
+        }
+    }
+
+
+}
