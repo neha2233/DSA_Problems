@@ -1,0 +1,73 @@
+package Graph;
+import java.util.*;
+
+public class Graph2 {
+    Map<Integer,List<Integer>> adjs=new HashMap<>();
+
+
+    public void addvertices(int start){
+        if(!adjs.containsKey(start)){
+            adjs.put(start,new ArrayList<>());
+        }
+    }
+    public void addedges(int source,int destination,boolean isdirected){
+        if(!adjs.containsKey(source)){
+            adjs.put(source,new ArrayList<>());
+        }
+        if(!adjs.containsKey(destination)){
+            adjs.put(destination,new ArrayList<>());
+        }
+
+        adjs.get(source).add(destination);
+        adjs.get(destination).add(source);
+    }
+
+    public void printgraph(){
+        for(var vertex:adjs.entrySet()){
+            System.out.println(vertex.getKey()+"->"+vertex.getValue());
+        }
+
+    }
+    public void bfs(int start){
+        Queue<Integer> queue=new LinkedList<>();
+        Set<Integer> visited=new HashSet<>();
+
+        queue.add(start);
+        visited.add(start);
+        System.out.print("BFS : ");
+        while(!queue.isEmpty()){
+            int vertex=queue.poll();
+            System.out.print(vertex+" ");
+
+            for(var ele:adjs.get(vertex)){
+
+                if(!visited.contains(ele)){
+                    queue.add(ele);
+                    visited.add(ele);
+                }
+            }
+
+        }
+        System.out.println();
+    }
+    public static void main(String[] args){
+        Graph2 graph=new Graph2();
+
+        graph.addvertices(1);
+        graph.addvertices(2);
+        graph.addvertices(3);
+        graph.addvertices(4);
+        graph.addvertices(5);
+
+        graph.addedges(1, 2, false);
+        graph.addedges(1, 3, false);
+        graph.addedges(2, 4, false);
+        graph.addedges(3, 4, false);
+        graph.addedges(4, 5, false);
+
+        graph.printgraph();
+        graph.bfs(1);
+
+
+    }
+}
