@@ -1,0 +1,37 @@
+package SlidingWindow;
+//Given a binary array nums and an integer goal, return the number of non-empty subarrays with a sum goal.
+//A subarray is a contiguous part of the array.
+//Example 1:
+//Input: nums = [1,0,1,0,1], goal = 2
+//Output: 4
+public class binarySubarraysWithSum {
+    public static int counthelper(int[] arr, int goal){
+        //count of subarrays with sum equal to goal == (count of subarrays with sum<=goal)- (count of subarrays with sum<=goal-1)
+        return solve(arr,goal)-solve(arr,goal-1);
+    }
+    public static int solve(int[] arr,int goal){
+        //method to find count of subarrays with sum<=goal
+        int count=0;
+        int i=0;
+        int sum=0;
+        for(int j=0; j<arr.length; j++){
+            sum=sum+arr[j];
+
+            while(sum>goal){
+               sum=sum-arr[i];
+               i++;
+            }
+
+                count+=j-i+1;
+
+        }
+        return count;
+    }
+    public static void main(String[] args){
+// int[] arr={1,0,0,0,1,0,1,0,0,1,0};
+       int[] arr={1,0,1,0,1};
+    int goal=2;
+    int ans=counthelper(arr,goal);
+        System.out.println(ans);
+    }
+}
