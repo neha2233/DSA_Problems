@@ -1,0 +1,41 @@
+package Recursion;
+
+public class ImplementionStoI {
+    public static int solution(String str){
+        int ans=0;
+        int min=Integer.MIN_VALUE;
+        int max=Integer.MAX_VALUE;
+        int n= str.length();
+        int i=0;
+        while(i<n&& str.charAt(i)==' '){
+          i++;
+        }
+        int sign=1;
+        if(i<n && (str.charAt(i)=='-' || str.charAt(i)=='+')){
+            if(str.charAt(i)=='-')
+              sign=-1;
+           i++;
+        }
+        while(i<n && str.charAt(i)-'0'<='9' && str.charAt(i)-'0'>=0){
+            int digit=str.charAt(i)-'0';
+            //handling edge case begin
+            //is handling overflow and underflow conditions that occur when the number being formed in ans
+            // exceeds the range of valid integer values in Java.
+            if(ans>max/10 || (ans==max/10 && digit>max%10)){
+                return (sign==-1)?min:max;
+            }
+            //handling edge case end
+            ans=ans*10+digit;
+            i++;
+
+        }
+
+
+        return ans*sign;
+    }
+    public static void main(String[] args){
+        String str=" -42";
+        int ans=solution(str);
+        System.out.println(ans);
+    }
+}
