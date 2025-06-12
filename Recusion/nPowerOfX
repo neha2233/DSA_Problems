@@ -1,0 +1,27 @@
+package Recursion;
+
+import java.util.Scanner;
+
+public class nPowerOfX {
+    public static double pow(double x, int n){
+        if(n==0)return 1;
+        if(n==1)return x;
+        if(n==-1)return 1/x;
+
+        double power=pow(x,n/2);
+
+        if(n%2==0)
+            return power*power;
+        else
+            return power*power*(n<0?(1/x):x);
+
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        double x= sc.nextDouble();
+        int n= sc.nextInt();
+        double ans=pow(x,n);
+        System.out.println(ans);
+
+    }
+}
