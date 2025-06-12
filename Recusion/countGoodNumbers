@@ -1,0 +1,47 @@
+package Recursion;
+//A digit string is good if the digits (0-indexed) at even indices are even and the digits at odd indices are prime (2, 3, 5, or 7).
+//Given an integer n, return the total number of good digit strings of length n. Since the answer may be large, return it
+// modulo 109 + 7.
+//        A digit string is a string consisting of digits 0 through 9 that may contain leading zeros.
+
+import java.util.Scanner;
+// [0,1,2,3,4,5,6,7,8,9]
+//Input: n = 1
+// Output: 5
+//Explanation: The good numbers of length 1 are "0", "2", "4", "6", "8".
+public class CountGoodNumbers {
+
+
+
+    public static int countGoodNumbers(long n) {
+        long MOD=1_000_000_007;
+        long even=(n+1)/2;
+        long odd=n/2;
+
+        long ans1=powr(5,even)%MOD;
+        long ans2=powr(4,odd)%MOD;
+
+        return (int)((ans1*ans2)%MOD);
+
+
+    }
+    public static long powr(long x, long n){
+        long MOD=1_000_000_007;
+        if(n==0)return 1;
+        if(n==1)return x;
+        if(n==-1) return 1/x;
+
+        long power=powr(x,n/2);
+
+        if(n%2==0) return (power*power)%MOD;
+        else
+            return (power*power*(n<0?1/x:x))%MOD;
+    }
+
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        long n= sc.nextLong();
+        int ans=countGoodNumbers(n);
+        System.out.println(ans);
+    }
+}
