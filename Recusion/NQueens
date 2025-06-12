@@ -1,0 +1,97 @@
+package Recursion;
+import java.util.ArrayList;
+import java.util.List;
+//The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
+//        Given an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.
+//        Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.
+//        Example 1:
+//        Input: n = 4
+//        Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+//        Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above
+//        Example 2:
+//        Input: n = 1
+//        Output: [["Q"]]
+public class NQueens {
+    public static List<String> makearr(char[][] ans){
+        List<String> res=new ArrayList<>();
+        for(int i=0; i<ans.length; i++){
+            String s=new String(ans[i]);
+            res.add((s));
+
+        }
+        return res;
+    }
+    public static void solve(int n, char ans[][],int col,List<List<String>> res){
+        if(col==ans.length){
+            res.add(makearr(ans));
+            return;
+        }
+        for(int i=0; i<ans.length; i++ ){
+            if(ispossible(ans,i,col))
+            {
+                ans[i][col]='Q';
+                solve(n,ans,col+1,res);
+                ans[i][col]='.';
+            }
+
+        }
+
+
+    }
+
+//    public static boolean ispossible(char[][] ans,int row,int col){
+//    int temprow=row;
+//    int tempcol=col;
+//
+//    while(row>=0 && col>=0){
+//        if(ans[row][col]=='Q')return false;
+//
+//        col++;
+//    }
+//    row=temprow;
+//    col=tempcol;
+//    while(row>=0){
+//        if(ans[row][col]=='Q')return false;
+//        row--;
+//    }
+//    row=temprow;
+//    col=tempcol;
+//    while(col>=0 && row<ans.length){
+//        if(ans[row][col]=='Q')return false;
+//        col--;
+//        row++;
+//    }
+//    return true;
+//    }
+
+    public static boolean ispossible(char[][] ans, int row, int col){
+        // Check same row (left side only)
+        for (int j = 0; j < col; j++) {
+            if (ans[row][j] == 'Q') return false;
+        }
+
+        // Check upper diagonal (left side)
+        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+            if (ans[i][j] == 'Q') return false;
+        }
+
+        // Check lower diagonal (left side)
+        for (int i = row, j = col; i < ans.length && j >= 0; i++, j--) {
+            if (ans[i][j] == 'Q') return false;
+        }
+
+        return true;
+    }
+    public static void main(String[] args){
+     int n=4;
+     char[][] ans=new char[n][n];
+     for(int i=0; i<n; i++){
+         for(int j=0; j<n; j++){
+             ans[i][j]='.';
+         }
+     }
+    List<List<String>> res=new ArrayList<>();
+     solve(n,ans,0,res);
+        System.out.println(res);
+    }
+}
